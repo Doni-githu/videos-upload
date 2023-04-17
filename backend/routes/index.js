@@ -12,7 +12,7 @@ const __dirname = dirname(__filename)
 
 const storage = multer.diskStorage({
     destination: (req, file, callback) => {
-        callback(null, './uploads/')
+        callback(null, path.join(__dirname, 'uploads'))
     },
     filename: (req, file, callback) => {
         callback(null, `video-${v4()}-${file.originalname}`)
@@ -31,9 +31,9 @@ const upload = multer({
 })
 
 
-router.post('/add', upload.any('videos'), (req, res) => {
-    console.log(req.body.name);
-    res.status(200).json({ message: 'Success' })
+router.post('/add', upload.any(), (req, res) => {
+    const file = req.files[0].filename
+    res.status(200).json({ message: 'Success', src: 'http://localhost:8000/routes/uploads/' + file })
 })
 
 

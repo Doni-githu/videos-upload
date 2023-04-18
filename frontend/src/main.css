@@ -1,0 +1,16 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: sans-serif;
+}
+
+ul,
+ol,
+dl{
+    margin-bottom: 0;
+}
+
+.form-control{
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out !important;
+}

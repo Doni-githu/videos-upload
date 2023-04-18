@@ -1,45 +1,30 @@
 <template>
-  <div>
-    <input type="file" @change="e => onChangeFile(e)">
-    <button v-on:click="SendData">Submit</button>
-    <template v-if="src">
-      <div class="video" v-if="src.split('.')[1] == '.mkv' || this.src.split('.')[1] == '.mp4'">
-        <video controls>
-          <source :src="src">
-        </video>
-      </div>
-    </template>
-    <template v-else>
-      <img :src="src">
-    </template>
+  <div class="conteiner">
+    <Navbar />
+    <main>
+      <RouterView />
+    </main>
   </div>
 </template>
 <script>
-import axios from "axios"
+import { RouterView } from 'vue-router';
+import Navbar from './components/Navbar.vue';
 export default {
-  data() {
-    return {
-      message: null,
-      file: null,
-      src: null
-    }
+  components: {
+    Navbar,
+    RouterView
   },
-  methods: {
-    onChangeFile(e) {
-      this.file = e.target.files[0]
-    },
-    SendData() {
-      const fd = new FormData();
-
-      fd.append('video', this.file)
-
-      axios.post('http://localhost:8000/api/add', fd)
-        .then((res) => {
-          this.src = res.data.src
-        })
-        .catch((err) => console.log(err))
-    }
+  mounted() {
+    if(localStorage.getItem('token')){
+      this.$store.dispatch('getUser')
+        .then((res) => console.log('Success get user'))
+    }  
   }
 }
 </script>
-<style></style>
+<style scoped>
+main {
+  width: 80%;
+  margin: 0 auto;
+}
+</style>
